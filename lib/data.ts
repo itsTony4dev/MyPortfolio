@@ -1,6 +1,6 @@
 export const site = {
   name: "Tony Ayda",
-  title: "Backend Software Engineer",
+  title: "Software Engineer",
   tagline:
     "I architect resilient APIs, real-time systems, and data pipelines — engineered for scale, tested for trust.",
   email: "tonyayda.dev@gmail.com",
@@ -144,6 +144,6 @@ export const certifications = [
   { name: "CCNAv7: Introduction to Networks", date: "Mar 2024" },
 ] as const;
 
-export const aboutText = `I'm a backend software engineer, obsessed with the craft of building systems that stay fast under pressure and honest under audit.
+export const aboutText = `I'm a backend-focused software engineer, obsessed with the craft of building systems that stay fast under pressure and honest under audit.
 
 From real-time platforms like Devcord to enterprise AML pipelines at VALOORES, I focus on clean architecture, measurable performance, and code that the next engineer won't hate. I care about test coverage, deploy velocity, and the details most people skip — pagination that actually scales, migrations that don't wake anyone up at 3 AM, and APIs that fail gracefully.`;

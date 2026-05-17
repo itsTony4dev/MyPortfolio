@@ -49,9 +49,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://tonyayda.dev",
     siteName: "Tony Ayda",
-    title: "Tony Ayda — Backend Software Engineer",
+    title: "Tony Ayda — Software Engineer",
     description:
-      "Backend software engineer specializing in Node.js, TypeScript, PostgreSQL, and real-time systems.",
+      "Backend-focused software engineer specializing in Node.js, TypeScript, PostgreSQL, and real-time systems.",
     images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Tony Ayda Portfolio" }],
   },
   twitter: {

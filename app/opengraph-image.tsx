@@ -61,7 +61,7 @@ export default function OpenGraphImage() {
             fontFamily: "monospace",
           }}
         >
-          Backend Software Engineer
+          Software Engineer
         </p>
         <p
           style={{

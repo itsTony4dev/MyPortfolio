@@ -48,6 +48,38 @@ body {
   mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 20%, transparent 75%);
 }
 
+.hero-grid-pulse {
+  animation: grid-pulse 8s ease-in-out infinite;
+}
+
+@keyframes grid-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.hero-grid-drift {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--primary) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--primary) 4%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: grid-drift 30s linear infinite;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 10%, transparent 70%);
+}
+
+@keyframes grid-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 48px 48px;
+  }
+}
+
 /* Film grain overlay */
 .noise {
   position: relative;
