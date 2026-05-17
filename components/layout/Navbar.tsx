@@ -21,79 +21,111 @@ export function Navbar() {
     };
   }, [mobileOpen]);
 
+  const closeMobile = () => setMobileOpen(false);
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-bg/80 backdrop-blur-xl border-b border-border"
-          : "bg-transparent"
-      }`}
-    >
-      <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a
-          href="#"
-          className="font-mono text-sm font-medium text-text hover:text-primary transition-colors"
-        >
-          {site.name.split(" ")[0]}
-          <span className="text-primary">.</span>
-        </a>
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-[200] transition-all duration-300 ${
+          mobileOpen
+            ? "bg-bg border-b border-border"
+            : scrolled
+              ? "bg-bg/95 backdrop-blur-xl border-b border-border"
+              : "bg-transparent"
+        }`}
+      >
+        <nav className="relative z-[201] max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <a
+            href="#"
+            className="font-mono text-sm font-medium text-text hover:text-primary transition-colors"
+            onClick={closeMobile}
+          >
+            {site.name.split(" ")[0]}
+            <span className="text-primary">.</span>
+          </a>
 
-        <ul className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="text-sm text-muted hover:text-primary transition-colors"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <a
-          href="#contact"
-          className="hidden md:inline-flex glow-cta px-5 py-2 rounded-full text-sm"
-        >
-          Hire Me
-        </a>
-
-        <button
-          type="button"
-          className="md:hidden p-2 text-muted hover:text-primary transition-colors"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-        >
-          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </nav>
-
-      {mobileOpen && (
-        <div className="md:hidden fixed inset-0 top-16 bg-bg/95 backdrop-blur-xl z-40">
-          <ul className="flex flex-col items-center gap-8 pt-12">
+          <ul className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="text-lg text-muted hover:text-primary transition-colors"
-                  onClick={() => setMobileOpen(false)}
+                  className="text-sm text-muted hover:text-primary transition-colors"
                 >
                   {link.label}
                 </a>
               </li>
             ))}
-            <li>
+          </ul>
+
+          <a
+            href="#contact"
+            className="hidden md:inline-flex glow-cta px-5 py-2 rounded-full text-sm"
+          >
+            Hire Me
+          </a>
+
+          <button
+            type="button"
+            className="md:hidden p-2 -mr-2 text-text hover:text-primary transition-colors"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </nav>
+      </header>
+
+      {mobileOpen && (
+        <div
+          className="md:hidden fixed inset-0 z-[199]"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation menu"
+        >
+          <button
+            type="button"
+            className="absolute inset-0 bg-[#0a0a0f] cursor-default"
+            onClick={closeMobile}
+            aria-label="Close menu"
+          />
+
+          <nav className="relative z-[1] flex min-h-full flex-col justify-between pt-24 pb-10 px-8 pointer-events-none">
+            <ul className="flex flex-col gap-1 pointer-events-auto">
+              {navLinks.map((link, i) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="group flex items-baseline gap-4 py-3 transition-colors"
+                    onClick={closeMobile}
+                  >
+                    <span className="font-mono text-xs text-primary/50 tabular-nums">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="font-mono text-2xl sm:text-3xl text-muted group-hover:text-primary transition-colors">
+                      {link.label}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <div className="pointer-events-auto space-y-6 border-t border-border/60 pt-8">
               <a
                 href="#contact"
-                className="glow-cta px-8 py-3 rounded-full text-sm"
-                onClick={() => setMobileOpen(false)}
+                className="inline-flex items-center gap-2 font-mono text-sm text-primary hover:gap-3 transition-all"
+                onClick={closeMobile}
               >
                 Hire Me
+                <span aria-hidden>→</span>
               </a>
-            </li>
-          </ul>
+              <p className="font-mono text-[10px] text-muted tracking-widest uppercase">
+                {site.location} · Open to remote
+              </p>
+            </div>
+          </nav>
         </div>
       )}
-    </header>
+    </>
   );
 }
