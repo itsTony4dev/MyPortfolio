@@ -4,6 +4,7 @@ import {
   Instrument_Sans,
   JetBrains_Mono,
 } from "next/font/google";
+import { ChatWidget } from "@/components/chat/ChatWidget";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
@@ -78,6 +79,7 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <ChatWidget />
       </body>
     </html>
   );
