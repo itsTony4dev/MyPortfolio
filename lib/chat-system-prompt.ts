@@ -31,7 +31,7 @@ SKILLS:
 - Frontend (supporting): React.js, Angular
 
 PROJECT:
-- Devcord (devcord.me): real-time dev chat platform, JWT auth, RBAC, 
+- Devcord (devcordd.vercel.app): real-time dev chat platform, JWT auth, RBAC, 
   email verification, Socket.IO, code playground, job scraper bot
 
 EDUCATION:

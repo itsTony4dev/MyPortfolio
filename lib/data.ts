@@ -95,7 +95,7 @@ export const projects = [
     tagline: "Real-time Developer Communication Platform",
     description:
       "A full-stack platform for developer communities — real-time chat, workspaces, code playground, and an intelligent job scraper bot.",
-    liveUrl: "https://devcord.me",
+    liveUrl: "https://devcordd.vercel.app",
     githubUrl: "https://github.com/itsTony4dev",
     featured: true,
     stack: [
