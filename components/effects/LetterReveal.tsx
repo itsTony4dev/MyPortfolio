@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { usePerformanceMode } from "@/hooks/use-performance-mode";
 
 type LetterRevealProps = {
   text: string;
@@ -8,6 +9,16 @@ type LetterRevealProps = {
 };
 
 export function LetterReveal({ text, className = "" }: LetterRevealProps) {
+  const { enableHeavyEffects, ready } = usePerformanceMode();
+
+  if (!ready) {
+    return <span className={className}>{text}</span>;
+  }
+
+  if (!enableHeavyEffects) {
+    return <span className={className}>{text}</span>;
+  }
+
   const letters = text.split("");
 
   return (
@@ -15,11 +26,11 @@ export function LetterReveal({ text, className = "" }: LetterRevealProps) {
       {letters.map((char, i) => (
         <motion.span
           key={`${char}-${i}`}
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: 0.4,
-            delay: i * 0.05,
+            duration: 0.35,
+            delay: i * 0.04,
             ease: [0.22, 1, 0.36, 1],
           }}
           className={char === " " ? "w-[0.35em]" : "inline-block"}

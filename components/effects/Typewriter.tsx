@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePerformanceMode } from "@/hooks/use-performance-mode";
 
 type TypewriterProps = {
   text: string;
@@ -9,10 +10,19 @@ type TypewriterProps = {
 };
 
 export function Typewriter({ text, speed = 55, className = "" }: TypewriterProps) {
-  const [displayed, setDisplayed] = useState("");
+  const { enableHeavyEffects, ready } = usePerformanceMode();
+  const [displayed, setDisplayed] = useState(text);
   const [done, setDone] = useState(false);
 
   useEffect(() => {
+    if (!ready) return;
+
+    if (!enableHeavyEffects) {
+      setDisplayed(text);
+      setDone(true);
+      return;
+    }
+
     setDisplayed("");
     setDone(false);
     let i = 0;
@@ -26,13 +36,14 @@ export function Typewriter({ text, speed = 55, className = "" }: TypewriterProps
       }
     }, speed);
     return () => clearInterval(interval);
-  }, [text, speed]);
+  }, [text, speed, ready, enableHeavyEffects]);
 
   return (
     <span className={className}>
-      <span className="text-primary">{">"}</span>{" "}
-      {displayed}
-      {!done && <span className="cursor-blink text-primary">▊</span>}
+      <span className="text-primary">{">"}</span> {displayed}
+      {ready && enableHeavyEffects && !done && (
+        <span className="cursor-blink text-primary">▊</span>
+      )}
     </span>
   );
 }

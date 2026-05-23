@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { usePerformanceMode } from "@/hooks/use-performance-mode";
 
 type Particle = {
   x: number;
@@ -13,42 +14,63 @@ type Particle = {
 
 export function HeroParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { enableHeavyEffects, ready } = usePerformanceMode();
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    if (!enableHeavyEffects) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.05 },
+    );
+    observer.observe(canvas);
+
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    let animationId: number;
+    let animationId = 0;
     let particles: Particle[] = [];
+    let running = true;
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio, 2);
-      canvas.width = canvas.offsetWidth * dpr;
-      canvas.height = canvas.offsetHeight * dpr;
-      ctx.scale(dpr, dpr);
+      const dpr = Math.min(window.devicePixelRatio, 1.5);
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     const initParticles = () => {
-      const count = Math.floor((canvas.offsetWidth * canvas.offsetHeight) / 12000);
-      particles = Array.from({ length: Math.min(count, 80) }, () => ({
+      const area = canvas.offsetWidth * canvas.offsetHeight;
+      const count = Math.min(Math.floor(area / 18000), 40);
+      particles = Array.from({ length: count }, () => ({
         x: Math.random() * canvas.offsetWidth,
         y: Math.random() * canvas.offsetHeight,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        radius: Math.random() * 1.5 + 0.5,
-        opacity: Math.random() * 0.5 + 0.2,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        radius: Math.random() * 1.2 + 0.4,
+        opacity: Math.random() * 0.4 + 0.15,
       }));
     };
 
     const draw = () => {
+      if (!running) return;
+
+      if (!visible) {
+        animationId = requestAnimationFrame(draw);
+        return;
+      }
+
       const w = canvas.offsetWidth;
       const h = canvas.offsetHeight;
       ctx.clearRect(0, 0, w, h);
 
-      particles.forEach((p, i) => {
+      for (const p of particles) {
         p.x += p.vx;
         p.y += p.vy;
         if (p.x < 0 || p.x > w) p.vx *= -1;
@@ -58,22 +80,7 @@ export function HeroParticles() {
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(0, 212, 255, ${p.opacity})`;
         ctx.fill();
-
-        for (let j = i + 1; j < particles.length; j++) {
-          const q = particles[j];
-          const dx = p.x - q.x;
-          const dy = p.y - q.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = `rgba(0, 212, 255, ${0.08 * (1 - dist / 120)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      });
+      }
 
       animationId = requestAnimationFrame(draw);
     };
@@ -83,22 +90,26 @@ export function HeroParticles() {
     draw();
 
     const onResize = () => {
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
       resize();
       initParticles();
     };
 
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", onResize, { passive: true });
+
     return () => {
+      running = false;
       cancelAnimationFrame(animationId);
       window.removeEventListener("resize", onResize);
+      observer.disconnect();
     };
-  }, []);
+  }, [enableHeavyEffects, visible]);
+
+  if (!ready || !enableHeavyEffects) return null;
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none opacity-60"
+      className="absolute inset-0 w-full h-full pointer-events-none opacity-50 hidden md:block"
       aria-hidden
     />
   );

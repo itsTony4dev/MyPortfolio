@@ -30,7 +30,7 @@ export function Navbar() {
           mobileOpen
             ? "bg-bg border-b border-border"
             : scrolled
-              ? "bg-bg/95 backdrop-blur-xl border-b border-border"
+              ? "bg-bg border-b border-border max-md:shadow-none md:bg-bg/95 md:backdrop-blur-xl"
               : "bg-transparent"
         }`}
       >
