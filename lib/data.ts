@@ -4,7 +4,6 @@ export const site = {
   tagline:
     "I architect resilient APIs, real-time systems, and data pipelines — engineered for scale, tested for trust.",
   email: "tonyayda.dev@gmail.com",
-  phone: "+961 76 120 674",
   location: "Lebanon",
   linkedin: "https://linkedin.com/in/tony-ayda",
   github: "https://github.com/itsTony4dev",
@@ -96,7 +95,7 @@ export const projects = [
     description:
       "A full-stack platform for developer communities — real-time chat, workspaces, code playground, and an intelligent job scraper bot.",
     liveUrl: "https://devcordd.vercel.app",
-    githubUrl: "https://github.com/itsTony4dev",
+    githubUrl: "https://github.com/itsTony4dev/devcord",
     featured: true,
     stack: [
       "Express.js",

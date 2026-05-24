@@ -44,20 +44,6 @@ export function Contact() {
               </p>
             </div>
           </a>
-          <a
-            href={`tel:${site.phone.replace(/\s/g, "")}`}
-            className="glass-card rounded-xl p-5 flex items-center gap-4 group"
-          >
-            <Phone className="text-primary shrink-0" size={20} />
-            <div>
-              <p className="text-xs text-muted font-mono uppercase tracking-wide">
-                Phone
-              </p>
-              <p className="text-text group-hover:text-primary transition-colors">
-                {site.phone}
-              </p>
-            </div>
-          </a>
           <div className="glass-card rounded-xl p-5 flex items-center gap-4">
             <MapPin className="text-primary shrink-0" size={20} />
             <div>
